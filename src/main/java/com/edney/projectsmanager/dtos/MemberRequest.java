@@ -1,11 +1,20 @@
 package com.edney.projectsmanager.dtos;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 public class MemberRequest {
 
+	@NotBlank(message = "member's name cannot be empty")
 	private String name;
+	
+	@NotNull(message = "member's employee field should be provided with true or false")
 	private Boolean employee;
+	
+	@NotBlank(message = "member's assignment cannot be empty") 
 	private String assignment;
+
+	@NotBlank(message = "member's document cannot be empty")
 	private String document;
 	
 	public String getName() {
