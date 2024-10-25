@@ -1,11 +1,16 @@
 package com.edney.projectsmanager.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "projects")
@@ -17,9 +22,11 @@ public class Project implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Project's name cannot be empty")
     @Column(nullable = false, length = 255)
     private String name;
 
+    @NotBlank(message = "Project's description cannot be empty")
     @Column(nullable = false)
     private String description;
 
@@ -28,16 +35,23 @@ public class Project implements Serializable {
     private LocalDateTime endDate;
 
     private LocalDateTime realEndDate;
+    
+    @JsonIgnore
+    private Boolean deleted;
 
+    @DecimalMin(value = "1.00", message = "Project's budget should at least 1.00")
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal budget;
 
+    @NotNull(message = "Project's risk cannot be null")
     @Enumerated(EnumType.STRING)
     private ProjectRisk risk;
 
+    @NotNull(message = "Project's status cannot be null")
     @Enumerated(EnumType.STRING)
     private ProjectStatus status;
 
+    @NotNull(message = "Project's member cannot be null")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id", referencedColumnName = "id")
     private Member member;
@@ -88,6 +102,14 @@ public class Project implements Serializable {
 
 	public void setRealEndDate(LocalDateTime realEndDate) {
 		this.realEndDate = realEndDate;
+	}
+	
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public BigDecimal getBudget() {

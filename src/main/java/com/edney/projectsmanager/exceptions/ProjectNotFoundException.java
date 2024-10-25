@@ -1,10 +1,10 @@
 package com.edney.projectsmanager.exceptions;
 
-public class CreateMemberException extends RuntimeException{
+public class ProjectNotFoundException extends RuntimeException{
 
 	private static final long serialVersionUID = 1L;
 
-	public CreateMemberException(String message) {
+	public ProjectNotFoundException(String message) {
 		super(message);
 	}
 	
