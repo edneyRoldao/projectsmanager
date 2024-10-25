@@ -1,4 +1,4 @@
-INSERT INTO members (name, employee, assignment) VALUES
-('John Doe', TRUE, 'Developer'),
-('Jane Smith', FALSE, 'Freelancer'),
-('Michael Brown', TRUE, 'Manager');
+INSERT INTO members (name, employee, assignment, document) VALUES
+('John Doe', TRUE, 'Developer', '77732335007'),
+('Jane Smith', FALSE, 'Freelancer', '17927072072'),
+('Michael Brown', TRUE, 'Manager', '14205012080');

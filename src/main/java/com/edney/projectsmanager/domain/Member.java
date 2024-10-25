@@ -23,6 +23,9 @@ public class Member implements Serializable {
 	
 	@Column(nullable = false, length = 100)
 	private String assignment;
+	
+	@Column(nullable = false, length = 30, unique = true)	
+	private String document;
 
 	public Long getId() {
 		return id;
@@ -56,6 +59,15 @@ public class Member implements Serializable {
 		this.assignment = assignment;
 	}
 
+	public String getDocument() {
+		return document;
+	}
+
+	public void setDocument(String document) {
+		this.document = document;
+	}
+
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(assignment, employee, id, name);

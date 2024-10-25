@@ -19,7 +19,7 @@ public class ProjectAPIController {
 
 	private final ProjectService service;
 	
-	public ProjectAPIController(ProjectService service) {
+	public ProjectAPIController(final ProjectService service) {
 		this.service = service;
 	}
 	
