@@ -50,18 +50,23 @@
                             </thead>
                             <tbody class="lists">
 								<c:forEach var="project" items="${projects}">
-								    <tr onclick="goToProjectDetailPage(${project.id})">
-								        <td>${project.name}</td>
-								        <td>${project.member.name}</td>
-								        <td>${project.risk}</td>
-										<td>${project.status}</td>									
-								        <td>
+									<tr>
+										<div id="projectInfo-${project.id}">
+											<td>${project.name}</td>
+											<td>${project.member.name}</td>
+											<td class="enumFormatter">${project.risk}</td>
+											<td class="enumFormatter">${project.status}</td>											
+										</div>																																								
+									    <td>
+											<a class="btn btn-primary btn-sm" href="/projects/${project.id}">Detail</a>											
 											<form id="delete-form-${project.id}" action="/projects/${project.id}/delete" method="POST" style="display: inline;">
-												<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+												<button type="submit" class="btn btn-danger btn-sm" ${project.canBeDeleted ? '' : 'disabled'}>
+													Delete
+												</button>
 											</form>
-								        </td>
-								    </tr>
-								</c:forEach>								
+									    </td>
+									</tr>
+								</c:forEach>						
                             </tbody>
                         </table>
                     </div>
@@ -77,7 +82,8 @@
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
             crossorigin="anonymous"></script>
-
+			
+		<script src="/js/app-utils.script.js"></script>
         <script src="/js/project-list.script.js"></script>
     </body>
 </html>

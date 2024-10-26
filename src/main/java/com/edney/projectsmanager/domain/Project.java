@@ -55,6 +55,9 @@ public class Project implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id", referencedColumnName = "id")
     private Member member;
+    
+    @Transient
+    private Boolean canBeDeleted; 
 
 	public Long getId() {
 		return id;
@@ -142,6 +145,21 @@ public class Project implements Serializable {
 
 	public void setMember(Member member) {
 		this.member = member;
+	}
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public Boolean getCanBeDeleted() {
+		switch (status) {
+			case STARTED:
+			case ONGOING:
+			case FINISHED:
+				return false;
+			default:
+				return true;
+		}
 	}
 
 	@Override

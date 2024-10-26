@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.edney.projectsmanager.domain.Member;
 import com.edney.projectsmanager.domain.Project;
-import com.edney.projectsmanager.domain.ProjectStatus;
 import com.edney.projectsmanager.exceptions.CreateUpdateProjectException;
 import com.edney.projectsmanager.exceptions.ProjectMemberAssignmentException;
 import com.edney.projectsmanager.exceptions.ProjectNotDeletedException;
@@ -37,7 +36,7 @@ public class ProjectServiceImpl implements ProjectService {
 	@Transactional
 	public void deleteById(Long id) {
 		var project = getProjectById(id);
-		checkDeletionIsValid(project.getStatus());
+		checkDeletionIsValid(project);
 		repository.logicalDeletion(project.getId());		
 	}
 
@@ -63,15 +62,9 @@ public class ProjectServiceImpl implements ProjectService {
 		}		
 	}
 	
-	private void checkDeletionIsValid(ProjectStatus status) {
-		switch (status) {
-			case STARTED:
-			case ONGOING:
-			case FINISHED:
-				throw new ProjectNotDeletedException(PROJECT_CANT_BE_DELETED_ERROR_MSG.getDescription());
-			default:
-				break;
-		}
+	private void checkDeletionIsValid(Project project) {
+		if (!project.getCanBeDeleted())
+			throw new ProjectNotDeletedException(PROJECT_CANT_BE_DELETED_ERROR_MSG.getDescription());
 	}
 	
 	private void checkMemberAssignmentIsValid(Member member) {

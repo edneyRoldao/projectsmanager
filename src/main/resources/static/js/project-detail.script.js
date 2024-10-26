@@ -1,10 +1,12 @@
 const projectDetailScript = (() => {	
 	formatDates()
-		
+	decimalFormat()
+	appUtilsScript.enumFormatter()
+	
 	function formatDates() {
-		const dateElements = Array.from(document.querySelectorAll(".dateFormat"))
+		const dateEl = Array.from(document.querySelectorAll(".dateFormat"))
 
-		dateElements.forEach(element => {
+		dateEl.forEach(element => {
 			const value = element.textContent.trim()
 			
 			if (value) {
@@ -18,6 +20,18 @@ const projectDetailScript = (() => {
 			} else {
 				element.textContent = 'Not provided'				
 			}		
+		})
+	}
+	
+	function decimalFormat() {
+		const decimalEl = Array.from(document.querySelectorAll(".decimalFormat"))
+		
+		decimalEl.forEach(element => {
+			const value = element.textContent.trim()			
+			element.textContent = new Intl.NumberFormat('de-DE', {
+		        minimumFractionDigits: 2,
+		        maximumFractionDigits: 2
+		    }).format(value);
 		})
 	}
 

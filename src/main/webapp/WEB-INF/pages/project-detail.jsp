@@ -52,12 +52,12 @@
 							</dd>
 
                             <dt class="col-sm-3">Classification:</dt>
-                            <dd class="col-sm-9" id="project-classification">
+                            <dd class="col-sm-9 enumFormatter" id="project-classification">
 								${project.risk}
 							</dd>
 
                             <dt class="col-sm-3">Status:</dt>
-                            <dd class="col-sm-9" id="project-status">
+                            <dd class="col-sm-9 enumFormatter" id="project-status">
 								${project.status}
 							</dd>
 
@@ -77,7 +77,7 @@
 							</dd>
 
                             <dt class="col-sm-3">Total Budget:</dt>
-                            <dd class="col-sm-9" id="project-total-budget">
+                            <dd class="col-sm-9 decimalFormat" id="project-total-budget">
 								${project.budget}
 							</dd>
                         </dl>
@@ -85,7 +85,9 @@
                         <div id="form-container" class="d-flex align-items-center gap-3">
 						    <a id="edit-button" class="btn btn-primary" href="/projects/${project.id}/edit">Edit</a>							
 							<form id="delete-form-${project.id}" method="POST" action="/projects/${project.id}/delete">
-						        <button type="submit" class="btn btn-danger">Delete</button>
+						        <button type="submit" class="btn btn-danger" ${project.canBeDeleted ? '' : 'disabled'}>
+									Delete
+								</button>
 						    </form>
 						</div>
                     </div>
@@ -101,7 +103,7 @@
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
             crossorigin="anonymous"></script>
 
+		<script src="/js/app-utils.script.js"></script>
 		<script src="/js/project-detail.script.js"></script>			
-
     </body>
 </html>
