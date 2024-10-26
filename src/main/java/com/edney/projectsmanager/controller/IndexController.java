@@ -1,14 +1,18 @@
 package com.edney.projectsmanager.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import java.util.Map;
 
-import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class IndexController {
 
-	public String index(Model model, HttpServletRequest request) {
+	@GetMapping("/")
+	public String index(Map<String, Product> model) {
+		var p = new Product();
+		p.setName("edney r r");
+		model.put("product", p);
 		return "index";
 	}
 	
