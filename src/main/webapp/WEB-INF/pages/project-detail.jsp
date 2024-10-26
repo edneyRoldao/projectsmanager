@@ -23,7 +23,7 @@
             <nav class="navbar">
                 <div class="container-fluid">
                     <p class="nav fst-italic fs-3">Project Manager</p>
-                        <a href="/projectList/index.html" class="btn-nav btn btn-primary btn-lg">Back to List</a>
+                        <a href="/projects/all" class="btn-nav btn btn-primary btn-lg">Back to List</a>
                 </div>
             </nav>
         </header>
