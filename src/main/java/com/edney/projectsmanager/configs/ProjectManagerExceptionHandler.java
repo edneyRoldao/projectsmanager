@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.edney.projectsmanager.exceptions.CreateMemberException;
-import com.edney.projectsmanager.exceptions.ProjectNotDeletedException;
+import com.edney.projectsmanager.exceptions.*;
 
 import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 
@@ -24,6 +23,24 @@ public class ProjectManagerExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(ProjectNotDeletedException.class)
 	public final String handler(ProjectNotDeletedException e) {
+		return e.getMessage();
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(CreateUpdateProjectException.class)
+	public final String handler(CreateUpdateProjectException e) {
+		return e.getMessage();
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(ProjectMemberAssignmentException.class)
+	public final String handler(ProjectMemberAssignmentException e) {
+		return e.getMessage();
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(ProjectNotFoundException.class)
+	public final String handler(ProjectNotFoundException e) {
 		return e.getMessage();
 	}
 

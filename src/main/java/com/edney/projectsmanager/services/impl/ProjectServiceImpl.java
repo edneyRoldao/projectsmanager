@@ -5,8 +5,11 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
+import com.edney.projectsmanager.domain.Member;
 import com.edney.projectsmanager.domain.Project;
+import com.edney.projectsmanager.domain.ProjectStatus;
 import com.edney.projectsmanager.exceptions.CreateUpdateProjectException;
+import com.edney.projectsmanager.exceptions.ProjectMemberAssignmentException;
 import com.edney.projectsmanager.exceptions.ProjectNotDeletedException;
 import com.edney.projectsmanager.exceptions.ProjectNotFoundException;
 import com.edney.projectsmanager.repositories.ProjectRepository;
@@ -14,9 +17,7 @@ import com.edney.projectsmanager.services.ProjectService;
 
 import jakarta.transaction.Transactional;
 
-import static com.edney.projectsmanager.configs.AppMessage.PROJECT_NOT_FOUND_ERROR_MSG;
-import static com.edney.projectsmanager.configs.AppMessage.CREATE_PROJECT_ERROR_MSG;
-
+import static com.edney.projectsmanager.configs.AppMessage.*;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -35,9 +36,9 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	@Transactional
 	public void deleteById(Long id) {
-//		var rowAffected = repository.logicalDeletion(id);		
-//		if (rowAffected < 1) 
-//			throw new ProjectNotDeletedException(PROJECT_NOT_FOUND_ERROR_MSG.getDescription());
+		var project = getProjectById(id);
+		checkDeletionIsValid(project.getStatus());
+		repository.logicalDeletion(project.getId());		
 	}
 
 	@Override
@@ -51,14 +52,33 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	@Transactional
 	public void createOrUpdate(Project project) {
+		checkMemberAssignmentIsValid(project.getMember());		
 		try {
 			var projectSaved = repository.save(project);
 			if (Objects.isNull(projectSaved)) 
-				throw new RuntimeException(CREATE_PROJECT_ERROR_MSG.getDescription());
-			
+				throw new RuntimeException(CREATE_PROJECT_ERROR_MSG.getDescription());			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new CreateUpdateProjectException(e.getMessage());			
+		}		
+	}
+	
+	private void checkDeletionIsValid(ProjectStatus status) {
+		switch (status) {
+			case STARTED:
+			case ONGOING:
+			case FINISHED:
+				throw new ProjectNotDeletedException(PROJECT_CANT_BE_DELETED_ERROR_MSG.getDescription());
+			default:
+				break;
+		}
+	}
+	
+	private void checkMemberAssignmentIsValid(Member member) {
+		try {
+			if (member.getEmployee() == true) return;			
+		} catch (Exception e) {
+			throw new ProjectMemberAssignmentException(PROJECT_MEMBER_CANNOT_ASSIGN_ERROR_MSG.getDescription());
 		}		
 	}
 	

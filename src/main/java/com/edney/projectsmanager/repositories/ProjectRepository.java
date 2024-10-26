@@ -18,9 +18,8 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
 	@Modifying
 	@Query(value = DELETE_PROJECT_SQL, nativeQuery = true)
-	int logicalDeletion(@Param("id") Long id);
+	void logicalDeletion(@Param("id") Long id);
 	
 	Optional<Project> findFirstByIdAndDeletedFalse(Long id);
-		
-	
+			
 }
