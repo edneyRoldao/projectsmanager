@@ -1,0 +1,35 @@
+version: '3.8'
+
+networks:
+  projects-manager-network:
+    driver: bridge
+
+services:
+  projectsmanagersrv:
+    build: .
+    container_name: projects-manager-app
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: postgres15srv
+      DB_PORT: 5432
+      DB_NAME: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+    depends_on:
+      - postgres15srv
+    networks:
+      - projects-manager-network
+
+  postgres15srv:
+    image: postgres:15.8-alpine
+    container_name: postgres15-database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ../data/postgres15:/var/lib/postgresql/data
+    networks:
+      - projects-manager-network
