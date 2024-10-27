@@ -27,6 +27,23 @@ public class Member implements Serializable {
 	@Column(nullable = false, length = 30, unique = true)	
 	private String document;
 
+	public Member() {
+		
+	}
+	
+	public Member(Long id) {
+		this.id = id;
+	}
+	
+	public Member(Long id, String name, Boolean employee, String assignment, String document) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.employee = employee;
+		this.assignment = assignment;
+		this.document = document;
+	}
+
 	public Long getId() {
 		return id;
 	}

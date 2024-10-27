@@ -9,6 +9,8 @@ public interface MemberService {
 
 	List<Member> getAll();
 	
+	Member getById(Long id);
+	
 	void create(MemberRequest request);
 	
 }

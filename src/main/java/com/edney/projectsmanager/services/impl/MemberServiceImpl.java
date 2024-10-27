@@ -26,6 +26,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public Member getById(Long id) {
+		return repository.getReferenceById(id);
+	}
+
+	@Override
 	public void create(MemberRequest request) {
 		try {
 			var model = convertMemberRequestToModel(request);

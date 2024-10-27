@@ -37,7 +37,7 @@ public class Project implements Serializable {
     private LocalDate realEndDate;
     
     @JsonIgnore
-    private Boolean deleted;
+    private Boolean deleted = false;
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal budget;
@@ -59,7 +59,8 @@ public class Project implements Serializable {
 		BeanUtils.copyProperties(request, this);
 		this.risk = ProjectRisk.valueOf(request.getRisk());
 		this.status = ProjectStatus.valueOf(request.getStatus());
-		this.member = request.getMember().getValue();		
+		this.member = new Member(request.getMemberId());
+		this.budget = budgetStringToDecimal(request.getBudget());
 	}
     
 	public Project() {
@@ -200,6 +201,18 @@ public class Project implements Serializable {
 			return false;
 		Project other = (Project) obj;
 		return Objects.equals(id, other.id);
+	}
+	
+	private BigDecimal budgetStringToDecimal(String budget) {		
+		if (budget.contains(",")) {
+			budget = budget
+					.replaceAll("\\.", "")
+					.replace(",", ".")
+					.replace("R$", "")
+					.trim();
+			
+		}
+		return new BigDecimal(budget);
 	}
         
 }

@@ -34,7 +34,7 @@ public class ProjectController {
 	@PostMapping("/save")
 	public String create(@ModelAttribute ProjectRequest request) {
 		System.out.println(request);
-//		service.createOrUpdate(request);
+		service.createOrUpdate(request);
 		return "redirect:/projects/all";
 	}
 

@@ -1,16 +1,11 @@
 package com.edney.projectsmanager.dtos;
 
-import com.edney.projectsmanager.domain.Member;
 import com.edney.projectsmanager.domain.Project;
-import com.edney.projectsmanager.domain.ProjectRisk;
-import com.edney.projectsmanager.domain.ProjectStatus;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 
 import org.springframework.beans.BeanUtils;
@@ -21,8 +16,8 @@ public class ProjectRequest implements Serializable {
 	
 	private Long id;
 	
-//	@NotNull(message = "Project's memberId cannot be null")
-	private DataSelectDTO<Member> member;
+	@NotNull(message = "Project's memberId cannot be null")
+	private Long memberId;
 	
 	@NotBlank(message = "Project's name cannot be empty")
 	private String name;
@@ -30,16 +25,14 @@ public class ProjectRequest implements Serializable {
     @NotBlank(message = "Project's description cannot be empty")
 	private String description;
 	    
-//    @NotBlank(message = "Project's risk cannot be empty")
-//    private DataSelectDTO<ProjectRisk> risk;
+    @NotBlank(message = "Project's risk cannot be empty")
     private String risk;
     
-//    @NotBlank(message = "Project's status cannot be empty")
-//    private DataSelectDTO<ProjectStatus> status;
+    @NotBlank(message = "Project's status cannot be empty")
     private String status;
-    
-    @DecimalMin(value = "1.00", message = "Project's budget should at least 1.00")
-    private BigDecimal budget;
+
+    @NotBlank(message = "Project's budget cannot be empty")
+    private String budget;
         
     private LocalDate initDate;
     
@@ -55,9 +48,11 @@ public class ProjectRequest implements Serializable {
     	BeanUtils.copyProperties(project, this);
     	this.risk = project.getRisk().name();    	
     	this.status = project.getStatus().name();
-    	this.member = new DataSelectDTO<>(project.getMember(), true);
+    	this.memberId = project.getMember().getId();
+    	this.budget = project.getBudget().toString();
     }
 
+    
 	public Long getId() {
 		return id;
 	}
@@ -66,12 +61,12 @@ public class ProjectRequest implements Serializable {
 		this.id = id;
 	}
 
-	public DataSelectDTO<Member> getMember() {
-		return member;
+	public Long getMemberId() {
+		return memberId;
 	}
 
-	public void setMember(DataSelectDTO<Member> member) {
-		this.member = member;
+	public void setMemberId(Long memberId) {
+		this.memberId = memberId;
 	}
 
 	public String getName() {
@@ -106,11 +101,11 @@ public class ProjectRequest implements Serializable {
 		this.status = status;
 	}
 
-	public BigDecimal getBudget() {
+	public String getBudget() {
 		return budget;
 	}
 
-	public void setBudget(BigDecimal budget) {
+	public void setBudget(String budget) {
 		this.budget = budget;
 	}
 
@@ -140,9 +135,9 @@ public class ProjectRequest implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ProjectRequest [id=" + id + ", member=" + member + ", name=" + name + ", description=" + description
+		return "ProjectRequest [id=" + id + ", memberId=" + memberId + ", name=" + name + ", description=" + description
 				+ ", risk=" + risk + ", status=" + status + ", budget=" + budget + ", initDate=" + initDate
 				+ ", endDate=" + endDate + ", realEndDate=" + realEndDate + "]";
 	}
-    	
+	    	
 }

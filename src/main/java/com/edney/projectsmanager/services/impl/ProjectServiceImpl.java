@@ -16,6 +16,7 @@ import com.edney.projectsmanager.exceptions.ProjectMemberAssignmentException;
 import com.edney.projectsmanager.exceptions.ProjectNotDeletedException;
 import com.edney.projectsmanager.exceptions.ProjectNotFoundException;
 import com.edney.projectsmanager.repositories.ProjectRepository;
+import com.edney.projectsmanager.services.MemberService;
 import com.edney.projectsmanager.services.ProjectService;
 
 import jakarta.transaction.Transactional;
@@ -25,9 +26,11 @@ import static com.edney.projectsmanager.configs.AppMessage.*;
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
+	private final MemberService memberService;
 	private final ProjectRepository repository;
 	
-	public ProjectServiceImpl(final ProjectRepository repository) {
+	public ProjectServiceImpl(final MemberService memberService, final ProjectRepository repository) {
+		this.memberService = memberService;
 		this.repository = repository;
 	}
 	
@@ -53,21 +56,31 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public ProjectFormDTO getDataCreate() {		
-		return new ProjectFormDTO(null, ProjectRisk.getList(), ProjectStatus.getList());
+	public ProjectFormDTO getDataCreate() {
+		Project project = null;
+		var risks = ProjectRisk.getList();
+		var statuses = ProjectStatus.getList();
+		var members = memberService.getAll();
+		return new ProjectFormDTO(project, risks, statuses, members);
 	}
 
 	@Override
 	public ProjectFormDTO getDataUpdate(Long projectId) {
 		var project = getProjectById(projectId);
-		return new ProjectFormDTO(project, ProjectRisk.getList(), ProjectStatus.getList());
+		var risks = ProjectRisk.getList();
+		var statuses = ProjectStatus.getList();
+		var members = memberService.getAll();
+		return new ProjectFormDTO(project, risks, statuses, members);
 	}
 
 	@Override
 	@Transactional
 	public void createOrUpdate(ProjectRequest request) {
 		var project = new Project(request);
+		project.setMember(memberService.getById(request.getMemberId()));
+		
 		checkMemberAssignmentIsValid(project.getMember());		
+
 		try {
 			var projectSaved = repository.save(project);
 			if (Objects.isNull(projectSaved)) 
