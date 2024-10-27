@@ -53,7 +53,7 @@
 									<tr>
 										<td>${project.name}</td>
 										<td>${project.member.name}</td>
-										<td class="enumFormatter">${project.risk}</td>
+										<td class="enumFormatter d-none d-sm-table-cell">${project.risk}</td>
 										<td class="enumFormatter">${project.status}</td>																					
 									    <td>
 											<a class="btn btn-primary btn-sm" href="/projects/${project.id}">Detail</a>											

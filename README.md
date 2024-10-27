@@ -149,15 +149,3 @@ curl --location 'http://localhost:8080/members/api/create' \
 ```
 curl --location 'http://localhost:8080/members/api/all'
 ```
-
-- get project statuses
-
-```
-curl --location 'http://localhost:8080/projects/api/statuses'
-```
-
-- get project risks
-
-```
-curl --location 'http://localhost:8080/projects/api/risks'
-```
