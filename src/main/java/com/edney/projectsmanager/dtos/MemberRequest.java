@@ -1,13 +1,18 @@
 package com.edney.projectsmanager.dtos;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.io.Serial;
 import java.io.Serializable;
 
-import jakarta.validation.constraints.NotBlank;
-
+@Setter
+@Getter
 public class MemberRequest implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@NotBlank(message = "member's name cannot be empty")
@@ -21,37 +26,5 @@ public class MemberRequest implements Serializable {
 
 	@NotBlank(message = "member's document cannot be empty")
 	private String document;
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public Boolean getEmployee() {
-		return employee;
-	}
-	
-	public void setEmployee(Boolean employee) {
-		this.employee = employee;
-	}
-	
-	public String getAssignment() {
-		return assignment;
-	}
-	
-	public void setAssignment(String assignment) {
-		this.assignment = assignment;
-	}
 
-	public String getDocument() {
-		return document;
-	}
-
-	public void setDocument(String document) {
-		this.document = document;
-	}
-	
 }

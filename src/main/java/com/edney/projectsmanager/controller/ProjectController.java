@@ -3,6 +3,7 @@ package com.edney.projectsmanager.controller;
 import java.util.List;
 import java.util.Map;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,14 +18,12 @@ import com.edney.projectsmanager.services.ProjectService;
 
 @Controller
 @RequestMapping("projects")
+@RequiredArgsConstructor
+
 public class ProjectController {
 
 	private final ProjectService service;
-	
-	public ProjectController (final ProjectService service) {
-		this.service = service;
-	}
-	
+
 	@GetMapping("/create")
 	public String renderCreatePage(Map<String, ProjectFormDTO> model) {
 		model.put("data", service.getDataCreate());

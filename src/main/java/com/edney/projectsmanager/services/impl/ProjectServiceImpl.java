@@ -3,6 +3,7 @@ package com.edney.projectsmanager.services.impl;
 import java.util.List;
 import java.util.Objects;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.edney.projectsmanager.domain.Member;
@@ -24,16 +25,12 @@ import jakarta.transaction.Transactional;
 import static com.edney.projectsmanager.configs.AppMessage.*;
 
 @Service
+@AllArgsConstructor
 public class ProjectServiceImpl implements ProjectService {
 
 	private final MemberService memberService;
 	private final ProjectRepository repository;
-	
-	public ProjectServiceImpl(final MemberService memberService, final ProjectRepository repository) {
-		this.memberService = memberService;
-		this.repository = repository;
-	}
-	
+
 	@Override
 	public List<Project> findAll() {
 		return repository.findAllByDeletedFalse();

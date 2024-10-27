@@ -2,6 +2,7 @@ package com.edney.projectsmanager.services.impl;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -12,14 +13,11 @@ import com.edney.projectsmanager.repositories.MemberRepository;
 import com.edney.projectsmanager.services.MemberService;
 
 @Service
+@AllArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
 	private final MemberRepository repository;
-	
-	public MemberServiceImpl(final MemberRepository repository) {
-		this.repository = repository;
-	}
-	
+
 	@Override
 	public List<Member> getAll() {
 		return repository.findAll();

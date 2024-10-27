@@ -1,17 +1,25 @@
 package com.edney.projectsmanager.dtos;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Objects;
-
 import com.edney.projectsmanager.domain.Member;
 import com.edney.projectsmanager.domain.Project;
 import com.edney.projectsmanager.domain.ProjectRisk;
 import com.edney.projectsmanager.domain.ProjectStatus;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 
 
+@Setter
+@Getter
+@ToString
 public class ProjectFormDTO  implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	private ProjectRequest project;
@@ -58,43 +66,4 @@ public class ProjectFormDTO  implements Serializable {
 				.toList();		
 	}
 
-	
-	public ProjectRequest getProject() {
-		return project;
-	}
-
-	public void setProject(ProjectRequest project) {
-		this.project = project;
-	}
-
-	public List<DataSelectDTO<Member>> getMembers() {
-		return members;
-	}
-
-	public void setMembers(List<DataSelectDTO<Member>> members) {
-		this.members = members;
-	}
-
-	public List<DataSelectDTO<ProjectRisk>> getRisks() {
-		return risks;
-	}
-
-	public void setRisks(List<DataSelectDTO<ProjectRisk>> risks) {
-		this.risks = risks;
-	}
-
-	public List<DataSelectDTO<ProjectStatus>> getStatuses() {
-		return statuses;
-	}
-
-	public void setStatuses(List<DataSelectDTO<ProjectStatus>> statuses) {
-		this.statuses = statuses;
-	}
-
-	@Override
-	public String toString() {
-		return "ProjectFormDTO [project=" + project + ", members=" + members + ", risks=" + risks + ", statuses="
-				+ statuses + "]";
-	}
-	
 }

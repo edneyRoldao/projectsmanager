@@ -1,5 +1,8 @@
 package com.edney.projectsmanager.configs;
 
+import lombok.Getter;
+
+@Getter
 public enum AppMessage {
 	
 	PROJECT_NOT_FOUND_ERROR_MSG("Project not found"),
@@ -12,9 +15,5 @@ public enum AppMessage {
 	AppMessage(String description) {
         this.description = description;
     }
-	
-    public String getDescription() {
-        return description;
-    }
-	
+
 }

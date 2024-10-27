@@ -28,6 +28,23 @@ A Java-based web application for managing projects. This app allows users to cre
 - **PostgreSQL** - Ensure PostgreSQL is installed and running.
 - **Maven** - For dependency management and build tasks.
 
+## Fast Start Up
+- You can run this application with docker and docker-compose by 
+following the steps bellow
+
+```
+# clone repository
+git clone https://github.com/edneyRoldao/projectsmanager.git
+
+# go to project's folder
+cd projectsmanager
+
+# run docker compose
+docker-compose up
+
+# access home page url: http://localhost:8080/projects/all
+```
+
 
 ## Getting Started
 
@@ -78,14 +95,8 @@ cd project-management-app
 ```
 mvn clean install
 ```
-       
-4. Run database migrations with Flyway:
-
-```
-mvn flyway:migrate
-```
-    
-5. Start the application:
+        
+4. Start the application:
 
 ```
 mvn spring-boot:run
@@ -98,7 +109,7 @@ application.properties
 1. project list page
 
 ```
-http://localhost:8080/projects
+http://localhost:8080/projects/all
 ```
 
 2. project detail
