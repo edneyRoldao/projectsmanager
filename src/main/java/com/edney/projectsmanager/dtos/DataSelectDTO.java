@@ -33,5 +33,10 @@ public class DataSelectDTO<T> implements Serializable {
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "DataSelectDTO [value=" + value + ", selected=" + selected + "]";
+	}
+		
 }

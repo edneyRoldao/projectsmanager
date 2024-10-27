@@ -21,7 +21,7 @@ public class ProjectRequest implements Serializable {
 	
 	private Long id;
 	
-	@NotNull(message = "Project's memberId cannot be null")
+//	@NotNull(message = "Project's memberId cannot be null")
 	private DataSelectDTO<Member> member;
 	
 	@NotBlank(message = "Project's name cannot be empty")
@@ -30,20 +30,22 @@ public class ProjectRequest implements Serializable {
     @NotBlank(message = "Project's description cannot be empty")
 	private String description;
 	    
-    @NotBlank(message = "Project's risk cannot be empty")
-    private DataSelectDTO<ProjectRisk> risk;
+//    @NotBlank(message = "Project's risk cannot be empty")
+//    private DataSelectDTO<ProjectRisk> risk;
+    private String risk;
     
-    @NotBlank(message = "Project's status cannot be empty")
-    private DataSelectDTO<ProjectStatus> status;
+//    @NotBlank(message = "Project's status cannot be empty")
+//    private DataSelectDTO<ProjectStatus> status;
+    private String status;
     
     @DecimalMin(value = "1.00", message = "Project's budget should at least 1.00")
     private BigDecimal budget;
         
     private LocalDate initDate;
     
-    private String endDate;
+    private LocalDate endDate;
     
-    private String realEndDate;
+    private LocalDate realEndDate;
     
     public ProjectRequest() {    	
     	
@@ -51,8 +53,8 @@ public class ProjectRequest implements Serializable {
 
     public ProjectRequest(Project project) {
     	BeanUtils.copyProperties(project, this);
-    	this.risk = new DataSelectDTO<>(project.getRisk(), true);    	
-    	this.status = new DataSelectDTO<>(project.getStatus(), true);
+    	this.risk = project.getRisk().name();    	
+    	this.status = project.getStatus().name();
     	this.member = new DataSelectDTO<>(project.getMember(), true);
     }
 
@@ -88,19 +90,19 @@ public class ProjectRequest implements Serializable {
 		this.description = description;
 	}
 
-	public DataSelectDTO<ProjectRisk> getRisk() {
+	public String getRisk() {
 		return risk;
 	}
 
-	public void setRisk(DataSelectDTO<ProjectRisk> risk) {
+	public void setRisk(String risk) {
 		this.risk = risk;
 	}
 
-	public DataSelectDTO<ProjectStatus> getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(DataSelectDTO<ProjectStatus> status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -120,19 +122,19 @@ public class ProjectRequest implements Serializable {
 		this.initDate = initDate;
 	}
 
-	public String getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(String endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 
-	public String getRealEndDate() {
+	public LocalDate getRealEndDate() {
 		return realEndDate;
 	}
 
-	public void setRealEndDate(String realEndDate) {
+	public void setRealEndDate(LocalDate realEndDate) {
 		this.realEndDate = realEndDate;
 	}
 

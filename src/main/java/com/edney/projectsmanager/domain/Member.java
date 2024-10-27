@@ -85,6 +85,11 @@ public class Member implements Serializable {
 		return Objects.equals(assignment, other.assignment) && Objects.equals(employee, other.employee)
 				&& Objects.equals(id, other.id) && Objects.equals(name, other.name);
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Member [id=" + id + ", name=" + name + ", employee=" + employee + ", assignment=" + assignment
+				+ ", document=" + document + "]";
+	}
 	
 }

@@ -77,5 +77,11 @@ public class ProjectFormDTO  implements Serializable {
 	public void setStatuses(List<DataSelectDTO<ProjectStatus>> statuses) {
 		this.statuses = statuses;
 	}
-		
+
+	@Override
+	public String toString() {
+		return "ProjectFormDTO [project=" + project + ", members=" + members + ", risks=" + risks + ", statuses="
+				+ statuses + "]";
+	}
+	
 }

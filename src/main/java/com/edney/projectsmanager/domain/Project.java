@@ -57,8 +57,8 @@ public class Project implements Serializable {
     
 	public Project(ProjectRequest request) {
 		BeanUtils.copyProperties(request, this);
-		this.risk = request.getRisk().getValue();
-		this.status = request.getStatus().getValue();
+		this.risk = ProjectRisk.valueOf(request.getRisk());
+		this.status = ProjectStatus.valueOf(request.getStatus());
 		this.member = request.getMember().getValue();		
 	}
     

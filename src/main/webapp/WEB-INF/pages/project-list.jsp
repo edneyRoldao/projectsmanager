@@ -51,12 +51,10 @@
                             <tbody class="lists">
 								<c:forEach var="project" items="${projects}">
 									<tr>
-										<div id="projectInfo-${project.id}">
-											<td>${project.name}</td>
-											<td>${project.member.name}</td>
-											<td class="enumFormatter">${project.risk}</td>
-											<td class="enumFormatter">${project.status}</td>											
-										</div>																																								
+										<td>${project.name}</td>
+										<td>${project.member.name}</td>
+										<td class="enumFormatter">${project.risk}</td>
+										<td class="enumFormatter">${project.status}</td>																					
 									    <td>
 											<a class="btn btn-primary btn-sm" href="/projects/${project.id}">Detail</a>											
 											<form id="delete-form-${project.id}" action="/projects/${project.id}/delete" method="POST" style="display: inline;">

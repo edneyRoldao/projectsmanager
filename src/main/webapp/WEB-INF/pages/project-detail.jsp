@@ -83,7 +83,7 @@
                         </dl>
 
                         <div id="form-container" class="d-flex align-items-center gap-3">
-						    <a id="edit-button" class="btn btn-primary" href="/projects/${project.id}/edit">Edit</a>							
+						    <a id="edit-button" class="btn btn-primary" href="/projects/${project.id}/update">Edit</a>							
 							<form id="delete-form-${project.id}" method="POST" action="/projects/${project.id}/delete">
 						        <button type="submit" class="btn btn-danger" ${project.canBeDeleted ? '' : 'disabled'}>
 									Delete
