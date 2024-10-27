@@ -4,13 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
+import org.springframework.beans.BeanUtils;
+
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.NotBlank;
+
+import com.edney.projectsmanager.dtos.ProjectRequest;
+
 
 @Entity
 @Table(name = "projects")
@@ -22,42 +24,63 @@ public class Project implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Project's name cannot be empty")
     @Column(nullable = false, length = 255)
     private String name;
 
-    @NotBlank(message = "Project's description cannot be empty")
     @Column(nullable = false)
     private String description;
 
-    private LocalDateTime initDate;
+    private LocalDate initDate;
 
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
-    private LocalDateTime realEndDate;
+    private LocalDate realEndDate;
     
     @JsonIgnore
     private Boolean deleted;
 
-    @DecimalMin(value = "1.00", message = "Project's budget should at least 1.00")
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal budget;
 
-    @NotNull(message = "Project's risk cannot be null")
     @Enumerated(EnumType.STRING)
     private ProjectRisk risk;
 
-    @NotNull(message = "Project's status cannot be null")
     @Enumerated(EnumType.STRING)
     private ProjectStatus status;
 
-    @NotNull(message = "Project's member cannot be null")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id", referencedColumnName = "id")
     private Member member;
     
     @Transient
-    private Boolean canBeDeleted; 
+    private Boolean canBeDeleted;
+    
+	public Project(ProjectRequest request) {
+		BeanUtils.copyProperties(request, this);
+		this.risk = request.getRisk().getValue();
+		this.status = request.getStatus().getValue();
+		this.member = request.getMember().getValue();		
+	}
+    
+	public Project() {
+	}
+
+	public Project(Long id, String name, String description, LocalDate initDate, LocalDate endDate,
+			LocalDate realEndDate, Boolean deleted, BigDecimal budget, ProjectRisk risk, ProjectStatus status,
+			Member member, Boolean canBeDeleted) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.initDate = initDate;
+		this.endDate = endDate;
+		this.realEndDate = realEndDate;
+		this.deleted = deleted;
+		this.budget = budget;
+		this.risk = risk;
+		this.status = status;
+		this.member = member;
+		this.canBeDeleted = canBeDeleted;
+	}
 
 	public Long getId() {
 		return id;
@@ -83,27 +106,27 @@ public class Project implements Serializable {
 		this.description = description;
 	}
 
-	public LocalDateTime getInitDate() {
+	public LocalDate getInitDate() {
 		return initDate;
 	}
 
-	public void setInitDate(LocalDateTime initDate) {
+	public void setInitDate(LocalDate initDate) {
 		this.initDate = initDate;
 	}
 
-	public LocalDateTime getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(LocalDateTime endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 
-	public LocalDateTime getRealEndDate() {
+	public LocalDate getRealEndDate() {
 		return realEndDate;
 	}
 
-	public void setRealEndDate(LocalDateTime realEndDate) {
+	public void setRealEndDate(LocalDate realEndDate) {
 		this.realEndDate = realEndDate;
 	}
 	

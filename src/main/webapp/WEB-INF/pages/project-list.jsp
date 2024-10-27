@@ -33,7 +33,7 @@
                         <div class="d-flex inline mb-2">
                             <h2 class="col">Projects</h2>
                             <a class="btn-new-proj btn btn-primary btn-lg"
-                                href="/register_edit/index.html">
+                                href="/projects/create">
                                 New project</a>
                         </div>
                         <table

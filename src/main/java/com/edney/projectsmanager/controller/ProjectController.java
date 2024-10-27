@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.edney.projectsmanager.domain.Project;
+import com.edney.projectsmanager.dtos.ProjectFormDTO;
+import com.edney.projectsmanager.dtos.ProjectRequest;
 import com.edney.projectsmanager.services.ProjectService;
 
 @Controller
@@ -20,6 +24,24 @@ public class ProjectController {
 	
 	public ProjectController (final ProjectService service) {
 		this.service = service;
+	}
+	
+	@GetMapping("/create")
+	public String renderCreatePage(Map<String, ProjectFormDTO> model) {
+		model.put("data", service.getDataCreate());
+		return "project-form";
+	}
+	
+	@PostMapping("/create")
+	public String create(@ModelAttribute ProjectRequest request) {
+		service.createOrUpdate(request);
+		return "redirect:/projects/all";
+	}
+
+	@GetMapping("/update")
+	public String renderUpdatePage(@RequestParam Long projectId, Map<String, ProjectFormDTO> model) {
+		model.put("data", service.getDataUpdate(projectId));
+		return "project-form";
 	}
 
 	@GetMapping("/all")
@@ -41,5 +63,7 @@ public class ProjectController {
 		service.deleteById(id);
 		return "redirect:/projects/all";
 	}
+	
+	
 	
 }

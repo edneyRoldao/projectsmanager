@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.edney.projectsmanager.domain.Member;
 import com.edney.projectsmanager.domain.Project;
+import com.edney.projectsmanager.domain.ProjectRisk;
+import com.edney.projectsmanager.domain.ProjectStatus;
+import com.edney.projectsmanager.dtos.ProjectFormDTO;
+import com.edney.projectsmanager.dtos.ProjectRequest;
 import com.edney.projectsmanager.exceptions.CreateUpdateProjectException;
 import com.edney.projectsmanager.exceptions.ProjectMemberAssignmentException;
 import com.edney.projectsmanager.exceptions.ProjectNotDeletedException;
@@ -49,8 +53,20 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
+	public ProjectFormDTO getDataCreate() {		
+		return new ProjectFormDTO(null, ProjectRisk.getList(), ProjectStatus.getList());
+	}
+
+	@Override
+	public ProjectFormDTO getDataUpdate(Long projectId) {
+		var project = getProjectById(projectId);
+		return new ProjectFormDTO(project, ProjectRisk.getList(), ProjectStatus.getList());
+	}
+
+	@Override
 	@Transactional
-	public void createOrUpdate(Project project) {
+	public void createOrUpdate(ProjectRequest request) {
+		var project = new Project(request);
 		checkMemberAssignmentIsValid(project.getMember());		
 		try {
 			var projectSaved = repository.save(project);

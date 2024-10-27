@@ -1,9 +1,14 @@
 package com.edney.projectsmanager.dtos;
 
 import jakarta.validation.constraints.NotNull;
+
+import java.io.Serializable;
+
 import jakarta.validation.constraints.NotBlank;
 
-public class MemberRequest {
+public class MemberRequest implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@NotBlank(message = "member's name cannot be empty")
 	private String name;

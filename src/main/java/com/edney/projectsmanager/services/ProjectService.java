@@ -3,8 +3,8 @@ package com.edney.projectsmanager.services;
 import java.util.List;
 
 import com.edney.projectsmanager.domain.Project;
-import com.edney.projectsmanager.domain.ProjectRisk;
-import com.edney.projectsmanager.domain.ProjectStatus;
+import com.edney.projectsmanager.dtos.ProjectRequest;
+import com.edney.projectsmanager.dtos.ProjectFormDTO;
 
 public interface ProjectService {
 	
@@ -14,14 +14,10 @@ public interface ProjectService {
 	
 	Project getProjectById(Long id);
 	
-	void createOrUpdate(Project project);
-	
-	default List<ProjectRisk> getProjectRisks() {
-		return ProjectRisk.getList();
-	}
-	
-	default List<ProjectStatus> getProjectStatuses() {
-		return ProjectStatus.getList();
-	}
+	void createOrUpdate(ProjectRequest project);
+
+	ProjectFormDTO getDataCreate();
+
+	ProjectFormDTO getDataUpdate(Long projectId);
 
 }
