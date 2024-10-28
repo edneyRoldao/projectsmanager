@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Joao",
+    "employee": true,
+    "assignment": "dev",
+    "document": "321654"
+  },
+  {
+    "id": 2,
+    "name": "Maria",
+    "employee": true,
+    "assignment": "dev",
+    "document": "321654"
+  }
+]

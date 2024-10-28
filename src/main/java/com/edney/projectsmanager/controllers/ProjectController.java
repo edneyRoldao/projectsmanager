@@ -1,4 +1,4 @@
-package com.edney.projectsmanager.controller;
+package com.edney.projectsmanager.controllers;
 
 import java.util.List;
 import java.util.Map;

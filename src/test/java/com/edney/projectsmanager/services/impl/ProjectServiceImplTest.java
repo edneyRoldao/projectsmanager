@@ -1,4 +1,6 @@
 package com.edney.projectsmanager.services.impl;
 
-public class ProjectServiceImplTest {
+import com.edney.projectsmanager.NoContextBaseTest;
+
+public class ProjectServiceImplTest extends NoContextBaseTest {
 }
