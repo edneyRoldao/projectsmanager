@@ -1,17 +1,20 @@
 package com.edney.projectsmanager.services.impl;
 
-import java.util.List;
-
 import com.edney.projectsmanager.aspects.Log;
+import com.edney.projectsmanager.domain.Member;
+import com.edney.projectsmanager.dtos.MemberRequest;
+import com.edney.projectsmanager.exceptions.CreateMemberException;
+import com.edney.projectsmanager.exceptions.MemberNotFoundException;
+import com.edney.projectsmanager.repositories.MemberRepository;
+import com.edney.projectsmanager.services.MemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import com.edney.projectsmanager.domain.Member;
-import com.edney.projectsmanager.dtos.MemberRequest;
-import com.edney.projectsmanager.exceptions.CreateMemberException;
-import com.edney.projectsmanager.repositories.MemberRepository;
-import com.edney.projectsmanager.services.MemberService;
+import java.util.List;
+import java.util.Objects;
+
+import static com.edney.projectsmanager.configs.AppMessage.MEMBER_NOT_FOUND_ERROR_MSG;
 
 @Service
 @AllArgsConstructor
@@ -28,7 +31,12 @@ public class MemberServiceImpl implements MemberService {
 	@Log
 	@Override
 	public Member getById(Long id) {
-		return repository.getReferenceById(id);
+		var member = repository.getReferenceById(id);
+
+		if (Objects.isNull(member) || Objects.isNull(member.getId()))
+			throw new MemberNotFoundException(MEMBER_NOT_FOUND_ERROR_MSG.getDescription());
+
+		return member;
 	}
 
 	@Log

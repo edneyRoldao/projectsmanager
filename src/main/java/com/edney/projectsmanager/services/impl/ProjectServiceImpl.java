@@ -59,11 +59,10 @@ public class ProjectServiceImpl implements ProjectService {
 	@Log
 	@Override
 	public ProjectFormDTO getDataCreate() {
-		Project project = null;
-		var risks = ProjectRisk.getList();
+        var risks = ProjectRisk.getList();
 		var statuses = ProjectStatus.getList();
 		var members = memberService.getAll();
-		return new ProjectFormDTO(project, risks, statuses, members);
+		return new ProjectFormDTO(null, risks, statuses, members);
 	}
 
 	@Log
@@ -99,7 +98,8 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	private void checkMemberAssignmentIsValid(Member member) {
 		try {
-			if (member.getEmployee()) return;
+			if (member.getEmployee())
+				return;
 
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());

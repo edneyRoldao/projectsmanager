@@ -44,4 +44,10 @@ public class ProjectManagerExceptionHandler {
 		return e.getMessage();
 	}
 
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MemberNotFoundException.class)
+	public final String handler(MemberNotFoundException e) {
+		return e.getMessage();
+	}
+
 }

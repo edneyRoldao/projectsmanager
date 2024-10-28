@@ -4,6 +4,7 @@ import com.edney.projectsmanager.NoContextBaseTest;
 import com.edney.projectsmanager.domain.Member;
 import com.edney.projectsmanager.dtos.MemberRequest;
 import com.edney.projectsmanager.exceptions.CreateMemberException;
+import com.edney.projectsmanager.exceptions.MemberNotFoundException;
 import com.edney.projectsmanager.repositories.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -24,7 +25,6 @@ public class MemberServiceImplTest extends NoContextBaseTest {
 
     @Test
     void shouldReturnMembersList() {
-        // mock
         List<Member> members = loadFile("domain/member-list");
 
         when(repository.findAll()).thenReturn(members);
@@ -49,6 +49,16 @@ public class MemberServiceImplTest extends NoContextBaseTest {
 
         assertNotNull(result);
         assertEquals(member.getDocument(), result.getDocument());
+        verify(repository, times(1)).getReferenceById(memberId);
+    }
+
+    @Test
+    void whenGetByIdAndMemberDoesNotExistShouldThrowMemberNotFoundException() {
+        var memberId = 2L;
+
+        when(repository.getReferenceById(memberId)).thenThrow(new MemberNotFoundException(""));
+
+        assertThrows(MemberNotFoundException.class, () -> service.getById(memberId));
         verify(repository, times(1)).getReferenceById(memberId);
     }
 

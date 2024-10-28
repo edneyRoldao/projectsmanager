@@ -1,0 +1,12 @@
+{
+  "id": 10,
+  "name": "Cristiano Biga",
+  "description": "a great painter",
+  "initDate": "2024-04-10",
+  "endDate": "2024-07-15",
+  "realEndDate": "2024-09-20",
+  "budget": 1000000.11,
+  "risk": "HIGH",
+  "status": "ANALYSIS_DONE"
+}
+
