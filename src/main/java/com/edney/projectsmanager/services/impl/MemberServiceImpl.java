@@ -2,6 +2,7 @@ package com.edney.projectsmanager.services.impl;
 
 import java.util.List;
 
+import com.edney.projectsmanager.aspects.Log;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -18,16 +19,19 @@ public class MemberServiceImpl implements MemberService {
 
 	private final MemberRepository repository;
 
+	@Log
 	@Override
 	public List<Member> getAll() {
 		return repository.findAll();
 	}
 
+	@Log
 	@Override
 	public Member getById(Long id) {
 		return repository.getReferenceById(id);
 	}
 
+	@Log
 	@Override
 	public void create(MemberRequest request) {
 		try {
@@ -35,7 +39,6 @@ public class MemberServiceImpl implements MemberService {
 			repository.save(model);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new CreateMemberException(e.getMessage());
 		}
 	}

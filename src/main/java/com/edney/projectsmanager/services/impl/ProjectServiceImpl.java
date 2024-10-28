@@ -1,11 +1,6 @@
 package com.edney.projectsmanager.services.impl;
 
-import java.util.List;
-import java.util.Objects;
-
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-
+import com.edney.projectsmanager.aspects.Log;
 import com.edney.projectsmanager.domain.Member;
 import com.edney.projectsmanager.domain.Project;
 import com.edney.projectsmanager.domain.ProjectRisk;
@@ -19,8 +14,13 @@ import com.edney.projectsmanager.exceptions.ProjectNotFoundException;
 import com.edney.projectsmanager.repositories.ProjectRepository;
 import com.edney.projectsmanager.services.MemberService;
 import com.edney.projectsmanager.services.ProjectService;
-
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static com.edney.projectsmanager.configs.AppMessage.*;
 
@@ -28,14 +28,18 @@ import static com.edney.projectsmanager.configs.AppMessage.*;
 @AllArgsConstructor
 public class ProjectServiceImpl implements ProjectService {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(ProjectServiceImpl.class);
+
 	private final MemberService memberService;
 	private final ProjectRepository repository;
 
+	@Log
 	@Override
 	public List<Project> findAll() {
 		return repository.findAllByDeletedFalse();
 	}
 
+	@Log
 	@Override
 	@Transactional
 	public void deleteById(Long id) {
@@ -44,14 +48,15 @@ public class ProjectServiceImpl implements ProjectService {
 		repository.logicalDeletion(project.getId());		
 	}
 
+	@Log
 	@Override
 	public Project getProjectById(Long id) {
-		var project = repository
+        return repository
 				.findFirstByIdAndDeletedFalse(id)
 				.orElseThrow(() -> new ProjectNotFoundException(PROJECT_NOT_FOUND_ERROR_MSG.getDescription()));
-		return project;
 	}
 
+	@Log
 	@Override
 	public ProjectFormDTO getDataCreate() {
 		Project project = null;
@@ -61,6 +66,7 @@ public class ProjectServiceImpl implements ProjectService {
 		return new ProjectFormDTO(project, risks, statuses, members);
 	}
 
+	@Log
 	@Override
 	public ProjectFormDTO getDataUpdate(Long projectId) {
 		var project = getProjectById(projectId);
@@ -70,21 +76,19 @@ public class ProjectServiceImpl implements ProjectService {
 		return new ProjectFormDTO(project, risks, statuses, members);
 	}
 
+	@Log
 	@Override
 	@Transactional
 	public void createOrUpdate(ProjectRequest request) {
 		var project = new Project(request);
 		project.setMember(memberService.getById(request.getMemberId()));
-		
 		checkMemberAssignmentIsValid(project.getMember());		
 
 		try {
-			var projectSaved = repository.save(project);
-			if (Objects.isNull(projectSaved)) 
-				throw new RuntimeException(CREATE_PROJECT_ERROR_MSG.getDescription());			
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new CreateUpdateProjectException(e.getMessage());			
+			repository.save(project);
+
+        } catch (Exception e) {
+			throw new CreateUpdateProjectException(e.getMessage());
 		}		
 	}
 	
@@ -95,10 +99,12 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	private void checkMemberAssignmentIsValid(Member member) {
 		try {
-			if (member.getEmployee() == true) return;			
+			if (member.getEmployee()) return;
+
 		} catch (Exception e) {
-			throw new ProjectMemberAssignmentException(PROJECT_MEMBER_CANNOT_ASSIGN_ERROR_MSG.getDescription());
-		}		
+			LOGGER.error(e.getMessage());
+		}
+		throw new ProjectMemberAssignmentException(PROJECT_MEMBER_CANNOT_ASSIGN_ERROR_MSG.getDescription());
 	}
 	
 }

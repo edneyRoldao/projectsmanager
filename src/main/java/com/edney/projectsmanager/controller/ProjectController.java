@@ -3,6 +3,7 @@ package com.edney.projectsmanager.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.edney.projectsmanager.aspects.Log;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,12 +25,14 @@ public class ProjectController {
 
 	private final ProjectService service;
 
+	@Log
 	@GetMapping("/create")
 	public String renderCreatePage(Map<String, ProjectFormDTO> model) {
 		model.put("data", service.getDataCreate());
 		return "project-form";
 	}
-	
+
+	@Log
 	@PostMapping("/save")
 	public String create(@ModelAttribute ProjectRequest request) {
 		System.out.println(request);
@@ -37,12 +40,14 @@ public class ProjectController {
 		return "redirect:/projects/all";
 	}
 
+	@Log
 	@GetMapping("/{projectId}/update")
 	public String renderUpdatePage(Map<String, ProjectFormDTO> model, @PathVariable Long projectId) {
 		model.put("data", service.getDataUpdate(projectId));
 		return "project-form";
 	}
 
+	@Log
 	@GetMapping("/all")
 	public String all(Map<String, List<Project>> model) {		
 		var projects = service.findAll();
@@ -50,6 +55,7 @@ public class ProjectController {
 		return "project-list";
 	}
 
+	@Log
 	@GetMapping("/{id}")
 	public String detail(Map<String, Project> model, @PathVariable Long id) {		
 		var project = service.getProjectById(id);
@@ -57,12 +63,11 @@ public class ProjectController {
 		return "project-detail";
 	}
 
+	@Log
 	@PostMapping("/{id}/delete")
 	public String delete(Map<String, Project> model, @PathVariable Long id) {		
 		service.deleteById(id);
 		return "redirect:/projects/all";
 	}
-	
-	
-	
+
 }
