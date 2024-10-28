@@ -5,7 +5,7 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 
-RUN mvn clean install
+RUN mvn clean test install
 
 EXPOSE 8080
 

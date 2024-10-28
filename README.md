@@ -133,12 +133,14 @@ http://localhost:8080/projects/update/project_id
 
 ## Running Tests
 
-To execute unit tests, run:
+1. To execute unit tests, run:
 
 ```
 mvn clean test
 ```
 
+2. Tests coverage print
+<img src="project-manager-test.png" alt="Tests coverage print">
 
 ## Project API documentation
 
