@@ -26,7 +26,12 @@
             </nav>
         </header>
         <main>
-            <div id="alert-container"></div>
+            <c:if test="${tuple.left != null}">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>${tuple.left}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </c:if>
             <div class="container">
                 <div class="row mt-4">
                     <div class="col-md-12 mb-5">
@@ -49,7 +54,7 @@
                                 </tr>
                             </thead>
                             <tbody class="lists">
-								<c:forEach var="project" items="${projects}">
+								<c:forEach var="project" items="${tuple.right}">
 									<tr>
 										<td>${project.name}</td>
 										<td>${project.member.name}</td>

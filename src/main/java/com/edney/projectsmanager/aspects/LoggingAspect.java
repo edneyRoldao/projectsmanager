@@ -78,7 +78,7 @@ public class LoggingAspect {
             Object param = parameters[i];
             Class<?> paramType = paramTypes[i];
 
-            if (param.toString().contains(paramType.getName() + "@")) {
+            if (Objects.nonNull(param) && param.toString().contains(paramType.getName() + "@")) {
                 String argValue = paramType.getSimpleName() + "=toString not implemented";
                 filteredParameters.add(argValue);
             } else {
