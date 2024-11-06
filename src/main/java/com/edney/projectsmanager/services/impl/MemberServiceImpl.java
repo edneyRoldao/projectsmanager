@@ -3,8 +3,10 @@ package com.edney.projectsmanager.services.impl;
 import com.edney.projectsmanager.aspects.Log;
 import com.edney.projectsmanager.domain.Member;
 import com.edney.projectsmanager.dtos.MemberRequest;
+import com.edney.projectsmanager.dtos.MemberUpdateRequest;
 import com.edney.projectsmanager.exceptions.CreateMemberException;
 import com.edney.projectsmanager.exceptions.MemberNotFoundException;
+import com.edney.projectsmanager.exceptions.UpdateMemberException;
 import com.edney.projectsmanager.repositories.MemberRepository;
 import com.edney.projectsmanager.services.MemberService;
 import lombok.AllArgsConstructor;
@@ -31,12 +33,8 @@ public class MemberServiceImpl implements MemberService {
 	@Log
 	@Override
 	public Member getById(Long id) {
-		var member = repository.getReferenceById(id);
-
-		if (Objects.isNull(member) || Objects.isNull(member.getId()))
-			throw new MemberNotFoundException(MEMBER_NOT_FOUND_ERROR_MSG.getDescription());
-
-		return member;
+		return repository.findFirstById(id)
+				.orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND_ERROR_MSG.getDescription()));
 	}
 
 	@Log
@@ -50,7 +48,25 @@ public class MemberServiceImpl implements MemberService {
 			throw new CreateMemberException(e.getMessage());
 		}
 	}
-	
+
+	@Log
+	@Override
+	public void update(MemberUpdateRequest request) {
+		var member = repository.findFirstById(request.id())
+				.orElseThrow(() -> new MemberNotFoundException(MEMBER_NOT_FOUND_ERROR_MSG.getDescription()));
+
+		try {
+			if (Objects.nonNull(request.assignment()) && !request.assignment().isEmpty())
+				member.setAssignment(request.assignment());
+			if (Objects.nonNull(request.employee()))
+				member.setEmployee(request.employee());
+			repository.save(member);
+
+		} catch (Exception e) {
+			throw new UpdateMemberException(e.getMessage());
+		}
+	}
+
 	private Member convertMemberRequestToModel(MemberRequest request) {
 		var model = new Member();
 		BeanUtils.copyProperties(request, model);

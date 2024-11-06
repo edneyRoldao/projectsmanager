@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -42,24 +43,25 @@ public class MemberServiceImplTest extends NoContextBaseTest {
     void shouldReturnOneMember() {
         var memberId = 2L;
         Member member = loadFile("domain/member", Member.class);
+        Optional<Member> memberOptional = Optional.of(member);
 
-        when(repository.getReferenceById(memberId)).thenReturn(member);
+        when(repository.findFirstById(memberId)).thenReturn(memberOptional);
 
         var result = service.getById(memberId);
 
         assertNotNull(result);
         assertEquals(member.getDocument(), result.getDocument());
-        verify(repository, times(1)).getReferenceById(memberId);
+        verify(repository, times(1)).findFirstById(memberId);
     }
 
     @Test
     void whenGetByIdAndMemberDoesNotExistShouldThrowMemberNotFoundException() {
         var memberId = 2L;
 
-        when(repository.getReferenceById(memberId)).thenThrow(new MemberNotFoundException(""));
+        when(repository.findFirstById(memberId)).thenThrow(new MemberNotFoundException(""));
 
         assertThrows(MemberNotFoundException.class, () -> service.getById(memberId));
-        verify(repository, times(1)).getReferenceById(memberId);
+        verify(repository, times(1)).findFirstById(memberId);
     }
 
     @Test

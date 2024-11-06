@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.edney.projectsmanager.domain.Member;
 import com.edney.projectsmanager.dtos.MemberRequest;
+import com.edney.projectsmanager.dtos.MemberUpdateRequest;
 
 public interface MemberService {
 
@@ -12,5 +13,7 @@ public interface MemberService {
 	Member getById(Long id);
 	
 	void create(MemberRequest request);
+
+	void update(MemberUpdateRequest request);
 	
 }
